@@ -7,7 +7,10 @@ import os  # 환경 변수를 가져오기 위해 os 모듈을 사용합니다.
 
 # DALL-E 스타일 API를 호출하여 로고 생성
 def generate_logo(company_name, color, style, shape, use):
-    api_key = st.secrets.get("OPENAI_API_KEY") # 수정된 부분
+    # prompt 변수 먼저 정의
+    prompt = f"A {style} circular logo design for a company named '{company_name}', using {color} color scheme. The logo emphasizes {use} with a {shape} layout."
+    
+    api_key = st.secrets.get("OPENAI_API_KEY")
     
     if not api_key:
         st.error("API key not found in secrets")
@@ -15,10 +18,10 @@ def generate_logo(company_name, color, style, shape, use):
         
     try:
         response = requests.post(
-            "https://api.openai.com/v1/images/generations", # URL 수정
+            "https://api.openai.com/v1/images/generations",
             headers={"Authorization": f"Bearer {api_key}"},
             json={
-                "prompt": prompt,
+                "prompt": prompt,  # 여기서 사용
                 "n": 1,
                 "size": "512x512"
             },
